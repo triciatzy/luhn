@@ -5,13 +5,16 @@ Generating check number & validating Luhn numbers in GO
 # Usage
 
 ```go
-import "github.com/theplant/luhn"
+import "github.com/triciatzy/luhn"
 
 func main() {
 	// Checking if a string is a valid luhn
-	luhn.Valid(1111) //= false
-	luhn.Valid(79927398713) //= true
+	n1 := big.NewInt(1111)
+	n2 := big.NewInt(79927398713)
+	luhn.Valid(n1) //= false
+	luhn.Valid(n2) //= true
 
-  luhn.CalculateLuhn(7992739871) //= 3
+	n3 := big.NewInt(7992739871)
+  luhn.CalculateLuhn(n3) //= 3
 }
 ```
