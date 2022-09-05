@@ -23,7 +23,7 @@ func TestLuhn(t *testing.T) {
 		divNum.Div(number, big.NewInt(10))
 		modNum.Mod(number, big.NewInt(10))
 		checkDigit := CalculateLuhn(divNum)
-		if checkDigit != int(modNum.Int64()) {
+		if checkDigit.Int64() != modNum.Int64() {
 			t.Errorf("%v's check number should be %v, but got %v", number, modNum, checkDigit)
 		}
 	}

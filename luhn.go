@@ -3,31 +3,36 @@ package luhn
 import "math/big"
 
 // CalculateLuhn return the check number
-func CalculateLuhn(number *big.Int) int {
+func CalculateLuhn(number *big.Int) *big.Int {
 	checkNumber := checksum(number)
 
-	if checkNumber == 0 {
-		return 0
+	zero := big.NewInt(0)
+	if checkNumber.Cmp(zero) == 0 {
+		return zero
 	}
 
-	return 10 - checkNumber
+	result := big.NewInt(10)
+	result.Sub(result, checkNumber)
+
+	return result
 }
 
 // Valid check number is valid or not based on Luhn algorithm
 func Valid(number *big.Int) bool {
 	modResult := new(big.Int)
 	divResult := new(big.Int)
+	summation := new(big.Int)
 	ten := big.NewInt(10)
 
 	modResult.Mod(number, ten)
 	checkDigit := checksum(divResult.Div(number, ten))
-	summation := modResult.Int64() + int64(checkDigit)
+	summation.Add(modResult, checkDigit)
+	summation.Mod(summation, ten)
 
-	return summation%10 == 0
-
+	return summation.Cmp(big.NewInt(0)) == 0
 }
 
-func checksum(number *big.Int) int {
+func checksum(number *big.Int) *big.Int {
 	result := new(big.Int)
 	cur := new(big.Int)
 	luhn := new(big.Int)
@@ -55,5 +60,5 @@ func checksum(number *big.Int) int {
 
 	luhn.Mod(luhn, ten)
 
-	return int(luhn.Int64())
+	return luhn
 }
